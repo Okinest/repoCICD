@@ -2,9 +2,10 @@
   "name": "repocicd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -12,9 +13,13 @@
   },
   "author": "Théo ALLEAUME",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Okinest/repoCICD/issues"
   },
-  "homepage": "https://github.com/Okinest/repoCICD#readme"
+  "homepage": "https://github.com/Okinest/repoCICD#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  }
 }
