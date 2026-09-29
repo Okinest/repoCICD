@@ -1,0 +1,41 @@
+name: Push
+
+# Evenement declancheur
+on:
+  push:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Actions qui permet de récupérer le code associé à la branche de l'évènement
+      - name: Checkout
+        uses: actions/checkout@v7
+        run: echo "Récupération du code"
+
+      #
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.18.0
+
+      #
+      - name: Mise en cache
+        uses: actions/cache@v5
+        with:
+         path: ~/.npm
+         key: npm-${{ hashFiles('package-lock.json') }}
+
+      #
+      - name: Lancer les tests
+        run: npm test
+        env: 
+          NODE_ENV: test
+
+      #
+      - if: always()
+        run: echo "Status ${{ job.status }}"
+          
+
+      
