@@ -3,6 +3,8 @@ name: Push
 # Evenement declancheur
 on:
   push:
+  branches:
+    - master
 
 jobs:
   test-ci:
