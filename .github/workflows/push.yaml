@@ -5,7 +5,7 @@ on:
   push:
 
 jobs:
-  hello:
+  test-ci:
     runs-on: ubuntu-latest
     
     steps:
@@ -42,7 +42,7 @@ jobs:
       - name: Résumé du job
         if: always()
         run: |
-          echo "### Résultat" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Statut : ${{ job.status }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Commit : ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Résultat" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Statut : ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit : ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
