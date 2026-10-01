@@ -11,11 +11,12 @@ on:
           - staging
           - production
 
+permissions:
+  contents: read 
+
 jobs:
   build:
     runs-on: ubuntu-26.04
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v7
 
@@ -46,8 +47,6 @@ jobs:
   test:
     needs: build
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -75,8 +74,6 @@ jobs:
     needs: test
     runs-on: ubuntu-26.04
     environment: ${{ inputs.environment }}
-    permissions:
-      contents: read
     steps:
       - name: Récupérer le build
         uses: actions/download-artifact@v7
