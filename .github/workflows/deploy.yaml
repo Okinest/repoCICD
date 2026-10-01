@@ -13,7 +13,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
 
@@ -44,12 +46,14 @@ jobs:
   test:
     needs: build
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 2
       matrix:
         node: [20, 22]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-26.04, windows-2025]
     steps:
       - uses: actions/checkout@v7
 
@@ -69,14 +73,32 @@ jobs:
 
   deploy:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
     steps:
       - name: Récupérer le build
         uses: actions/download-artifact@v7
         with:
           name: application
           path: dist
+
+      - name: Afficher API_URL
+        run: echo "API_URL=$API_URL"
+
+      - name: Résumé du déploiement
+        env:
+          TARGET: ${{ inputs.environment }}
+          COMMIT: ${{ github.sha }}
+        run: |
+          {
+            echo "### Déploiement"
+            echo ""
+            echo "- Cible : ${TARGET}"
+            echo "- URL : ${API_URL}"
+            echo "- Commit : ${COMMIT}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Déployer
         env:
